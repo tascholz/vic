@@ -1,0 +1,41 @@
+{
+	"showCalendar":
+		{
+			"key": "kalender",
+			"method": "showCalendar",
+			"params": ""
+		},
+
+	"addCalendarEntry":
+		{
+			"key": "termin",
+			"method": "addCalendarEntry",
+			"params": {
+				"name": "Welchen Namen soll der Termin haben?",
+				"date": "Welches Datum soll der Termin haben?"
+			}
+		},
+	"showShoppingList":
+		{
+			"key" : "einkaufsliste",
+			"method" : "showShoppingList",
+			"params" : "" 
+		},
+
+	"addShoppingListEntry":
+		{
+			"key" : "einkaufen",
+			"method" : "addShoppingListEntry",
+			"params" : {
+				"name" : "Welchen Artikel soll ich auf die Einkaufsliste schreiben?"
+			} 
+		},
+
+	"exit":
+		{
+			"key": "beenden",
+			"method": "exit",
+			"params": ""
+		}
+
+}
