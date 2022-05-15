@@ -1,29 +1,26 @@
 import sys
-import random
-from PySide6 import QtCore, QtWidgets, QtGui
+from PySide6.QtWidgets import QWidget, QCalendarWidget, QLabel, QApplication, QGraphicsOpacityEffect, QVBoxLayout
+from PySide6.QtCore import QDate
+import json
 
-class Calendar(QtWidgets.QWidget):
+class Calendar(QWidget):
 	def __init__(self):
 		super().__init__()
+		with open('modules/data.json', 'r') as f:
+			self.data = json.load(f)["dates"]
+		self.layout = QVBoxLayout()
 
-		self.hello = ["Hallo Welt", "Moin", "Hola"]
+		print(self.data)
+		for entry in self.data:
+			dateLabel = QLabel(entry + ": " + self.data[entry])
+			self.layout.addWidget(dateLabel)
+		self.setLayout(self.layout)
 
-		self.button = QtWidgets.QPushButton("Click Me")
-		self.text = QtWidgets.QLabel("Hello World", alignment = QtCore.Qt.AlignCenter)
 
-		self.layout = QtWidgets.QVBoxLayout(self)
-		self.layout.addWidget(self.text)
-		self.layout.addWidget(self.button)
+def main():
+	app = QApplication()
+	ex = Calendar()
+	sys.exit(app.exec())
 
-		self.button.clicked.connect(self.magic)
-
-	@QtCore.Slot()
-	def magic(self):
-		self.text.setText(random.choice(self.hello))
-
-	def start(self, app):
-		widget = Dia()
-		widget.resize(800, 600)
-		widget.show()
-
-		sys.exit(app.exec())	
+if __name__ == '__main__':
+	main()

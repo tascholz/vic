@@ -22,7 +22,6 @@ class Input():
 				result = json.loads(self.recognizer.Result())["text"]
 				return result
 
-
 class OAudio():
 	def __init__(self):
 		self.engine = pyttsx3.init()

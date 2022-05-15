@@ -1,3 +1,5 @@
+import json
+
 #showCalendar
 def showCalendar(params):
 	data = {}
@@ -13,9 +15,40 @@ def addCalendarEntry(params):
 	data["method"] = "addCalendarEntry"
 	data["name"] = params["name"]
 	data["date"] = params["date"]
-	print("Adding the following entry:")
-	print(params["name"])
-	print(params["date"])
+
+	with open('modules/data.json', 'r') as f:
+		dict = json.load(f)["dates"]
+	
+	dict["dates"][data["date"]] = data["name"]
+	
+	with open('modules/data.json', 'w') as f:
+		json.dump(dict, f)
+	#TODO conversion data["date"] to date
+	return data
+
+#showToDoList
+def showToDoList(params):
+	data = {}
+	data["method"] = "showToDoList"
+	return data
+
+#addToDoItem
+#
+#@name
+#@person
+def addToDoItem(params):
+	data = {}
+	data["method"] = "addToDoItem"
+	data["name"] = params["name"]
+	data["person"] = params["person"]
+
+	with open('/modules/data.json', 'r') as f:
+		dict = json.load(f)
+	todoItems["toDoItems"][data["name"]] = data["person"]
+
+	with open('/modules/data.json', 'w') as f:
+		json.dump(dict, f)
+
 	return data
 
 #showShoppingList
@@ -31,6 +64,13 @@ def addShoppingListEntry(params):
 	data = {}
 	data["method"] = "addShoppingListEntry" 
 	data["name"] = params["name"]
+
+	with open('modules/data.json', 'r') as f:
+		dict = json.load(f)
+	dict["shoppingItems"].append(data["name"])
+	with open('modules/data.json', 'w') as f:
+		json.dump(dict, f)	
+
 	return data
 
 def exit(params):

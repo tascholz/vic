@@ -4,6 +4,10 @@ import sys
 from bot import Bot
 import threading
 
+from modules.calendar import Calendar
+from modules.toDoList import ToDoList
+from modules.shoppingList import ShoppingList	
+
 class Main():
 	def __init__(self):
 		self.running = True
@@ -16,6 +20,7 @@ class Main():
 		self.comm = Communicate()
 		self.comm.calendar.connect(self.window.showCalendar)
 		self.comm.sL.connect(self.window.showShoppingList)
+		self.comm.toDo.connect(self.window.showToDoList)
 
 		thread = threading.Thread(target=self.runBot)
 		thread.setDaemon(True)
@@ -29,54 +34,29 @@ class Main():
 				self.comm.calendar.emit()
 			if data["method"] == "showShoppingList":
 				self.comm.sL.emit()
+			if data["method"] == "showToDoList":
+				self.comm.toDo.emit()
 
 class Communicate(QObject):
 	calendar = Signal()
 	sL = Signal()
+	toDo = Signal()
 
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
-		self.setWindowTitle("My App")
-
-		self.diaButton = QPushButton("DiaShowButton")
-		self.diaButton.clicked.connect(self.showShoppingList)
-
-		self.calButton = QPushButton("CalendarButton")
-		self.calButton.clicked.connect(self.showCalendar)
-		
+		self.setWindowTitle("My App")		
 		self.showShoppingList()
 
 	def showShoppingList(self):
-		self.dia = Dia(self)
-		self.setCentralWidget(self.dia)
+		self.shoppingList = ShoppingList()
+		self.setCentralWidget(self.shoppingList)
 
 	def showCalendar(self):
-		self.cal = Calendar(self)
+		self.cal = Calendar()
 		self.setCentralWidget(self.cal)
-
-class Dia(QWidget):
-	def __init__(self, parent):
-		super().__init__()
-		layout = QVBoxLayout()
-		self.label = QLabel("EinkaufsListe")
-
-		self.button = QPushButton("Calendar")
-		self.button.clicked.connect(parent.showCalendar)
-		layout.addWidget(self.label)
-		layout.addWidget(self.button)
-		self.setLayout(layout)
-
-class Calendar(QWidget):
-	def __init__(self, parent):
-		super().__init__()
-		layout = QVBoxLayout()
-		self.label = QLabel("Kalender")
-
-		self.button = QPushButton("Dia")
-		self.button.clicked.connect(parent.showShoppingList)
-		layout.addWidget(self.label)
-		layout.addWidget(self.button)
-		self.setLayout(layout)
+	def showToDoList(self):
+		self.toDoList = ToDoList()
+		self.setCentralWidget(self.toDoList)
 
 main = Main()

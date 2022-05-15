@@ -31,6 +31,23 @@
 			} 
 		},
 
+	"showToDoList":
+		{
+			"key": "aufgaben",
+			"method": "showToDoList",
+			"params": ""
+		},
+
+	"addToDoItems":
+		{
+			"key": "todoliste",
+			"method": "showToDoItems",
+			"params": {
+				"name": "Wie heisst die Aufgabe?",
+				"person": "Welche Person hat die Aufgabe?"
+			}
+		},
+
 	"exit":
 		{
 			"key": "beenden",
