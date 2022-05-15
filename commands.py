@@ -2,6 +2,7 @@
 def showCalendar(params):
 	data = {}
 	data["method"] = "showCalendar"
+	return data
 
 #addCalendarEntry
 #

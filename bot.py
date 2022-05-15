@@ -19,7 +19,7 @@ class Bot():
 			self.waitForUser()
 			cmd = self.getCommand()
 			method, params = self.buildCommand(cmd)
-			self.executeCommand(method, params)
+			return self.executeCommand(method, params)
 
 	def waitForUser(self):
 		while True:
@@ -50,9 +50,10 @@ class Bot():
 	def executeCommand(self, method, params):
 		method_to_call = getattr(commands, method)
 		data = method_to_call(params)
-		print(data)
-		b64Json = base64.urlsafe_b64encode(json.dumps(data).encode()).decode()
-		print (b64Json)
+		#print(data)
+		#b64Json = base64.urlsafe_b64encode(json.dumps(data).encode()).decode()
+		#print (b64Json)
+		return data
 		
 		
 
