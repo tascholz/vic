@@ -8,7 +8,7 @@ from time import sleep
 from bot import Bot
 import threading
 
-from modules import Calendar, ToDoList, ShoppingList, DiaShow	
+from modules import Calendar, ToDoList, ShoppingList, DiaShow, Communicate	
 
 class Main():
 	def __init__(self):
@@ -21,6 +21,9 @@ class Main():
 				background-position: center;
 			}
 		"""
+
+		#Test
+		self.module = ""
 		self.app = QApplication(sys.argv)
 		
 		self.app.setStyleSheet(self.stylesheet)
@@ -31,7 +34,7 @@ class Main():
 
 		self.comm = Communicate()
 		self.comm.calendar.connect(self.window.showCalendar)
-		self.comm.sL.connect(self.window.showShoppingList)
+		self.comm.shoppingList.connect(self.window.showShoppingList)
 		self.comm.toDo.connect(self.window.showToDoList)
 
 		#Bot Thread
@@ -49,10 +52,16 @@ class Main():
 
 	def runBot(self):
 		while self.running:
+
 			cmd, params = self.bot.run()
-			module = class_from_string(cmd["module"])
-			method_to_call = getattr(cmd["module"], cmd["method"])
-			method_to_call(params)
+			print("DEBUG:  ")
+			print(cmd)
+			self.module = getattr(sys.modules[__name__], cmd["module"])()
+			method_to_call = getattr(self.module, cmd["method"])
+			if params == "":
+				method_to_call(self.comm)
+			else:
+				method_to_call(params)
 
 	def cycleBG(self):
 		index = 0
@@ -65,23 +74,21 @@ class Main():
 			
 			self.stylesheet = "MainWindow { background-image: url(images/" + allfiles[index] + "); background-repeat: no-repeat; background-position: center;}"
 			self.app.setStyleSheet(self.stylesheet)
-
 			index += 1
-			sleep(2)
+			sleep(10)
 
 
 
-class Communicate(QObject):
-	calendar = Signal()
-	sL = Signal()
-	toDo = Signal()
+#class Communicate(QObject):
+#	calendar = Signal()
+#	sL = Signal()
+#	toDo = Signal()
 
 class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
 
-		self.setWindowTitle("My App")		
-		self.showCalendar()
+		self.setWindowTitle("My App")	
 		self.setFixedSize(800, 400)
 
 	def showShoppingList(self):
@@ -89,10 +96,11 @@ class MainWindow(QMainWindow):
 		shoppingList.buildModule()
 		self.setCentralWidget(shoppingList)
 
-	def showCalendar(self):
-		cal = Calendar()
-		cal.buildModule()
-		self.setCentralWidget(cal)
+	def showCalendar(self, object):
+		print("received signal")
+		#cal = Calendar()
+		#cal.buildModule()
+		#self.setCentralWidget(object)
 
 	def showToDoList(self):
 		toDoList = ToDoList()

@@ -2,7 +2,7 @@
 	"showCalendar":
 		{
 			"key": "kalender",
-			"module": "calendar",
+			"module": "Calendar",
 			"method": "buildModule",
 			"params": ""
 		},
@@ -10,7 +10,7 @@
 	"addCalendarEntry":
 		{
 			"key": "termin",
-			"module": "calendar",
+			"module": "Calendar",
 			"method": "storeData",
 			"params": {
 				"name": "Welchen Namen soll der Termin haben?",
@@ -20,7 +20,7 @@
 	"showShoppingList":
 		{
 			"key" : "einkaufsliste",
-			"module": "shoppingList",
+			"module": "ShoppingList",
 			"method" : "buildModule",
 			"params" : "" 
 		},
@@ -28,7 +28,7 @@
 	"addShoppingListEntry":
 		{
 			"key" : "einkaufen",
-			"module": "shoppingList",
+			"module": "ShoppingList",
 			"method" : "storeData",
 			"params" : {
 				"name" : "Welchen Artikel soll ich auf die Einkaufsliste schreiben?"
@@ -38,7 +38,7 @@
 	"showToDoList":
 		{
 			"key": "aufgaben",
-			"module": "toDoList",
+			"module": "ToDoList",
 			"method": "buildModule",
 			"params": ""
 		},
@@ -47,7 +47,7 @@
 		{
 			"key": "todoliste",
 			"method": "storeData",
-			"module": "toDoList",
+			"module": "ToDoList",
 			"params": {
 				"name": "Wie heisst die Aufgabe?",
 				"person": "Welche Person hat die Aufgabe?"
@@ -56,7 +56,7 @@
 	"showDia":
 		{
 			"key": "diashow",
-			"module": "diashow",
+			"module": "Diashow",
 			"method": "buildModule",
 			"params": ""
 

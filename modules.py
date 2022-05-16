@@ -7,9 +7,9 @@ import json
 datapath = 'modules/data.json'
 
 class Communicate(QObject):
-	calendar = Signal()
-	shoppingList = Signal()
-	toDo = Signal()
+	calendar = Signal(object)
+	shoppingList = Signal(object)
+	toDo = Signal(object)
 
 
 class Module(QWidget):
@@ -18,7 +18,7 @@ class Module(QWidget):
 		with open(datapath, 'r') as f:
 			self.dict = json.load(f)
 		self.layout = QVBoxLayout()
-		self.comm = Communicate()
+		
 
 		#Test
 		op = QGraphicsOpacityEffect(self)
@@ -40,14 +40,14 @@ class Calendar(Module):
 	def __init__(self):
 		super().__init__()
 
-	def buildModule(self):
-
+	def buildModule(self, signal):
+		print("Kalender wird angezeigt")
 		for entry in self.dict["dates"]:
 			label = QLabel(entry + ": " + self.dict["dates"][entry])
 			self.layout.addWidget(label)
 			print(entry)
 		self.setLayout(self.layout)
-		self.comm.calendar.emit()
+		signal.calendar.emit(self)
 
 	def storeData(self, params):
 		data = {}
@@ -65,7 +65,9 @@ class ShoppingList(Module):
 		super().__init__()
 
 	def buildModule(self):
+		print("Einkaufsliste wird angezeigt")
 		for entry in self.dict["shoppingItems"]:
+			print(entry)
 			label = QLabel(entry)
 			self.layout.addWidget(label)
 		self.setLayout(self.layout)
@@ -84,6 +86,7 @@ class ToDoList(Module):
 		super().__init__()
 
 	def buildModule(self):
+		print("ToDO wird angezeigt")
 		for entry in self.dict["tasks"]:
 			label = QLabel(entry + ": " + self.dict["tasks"][entry])
 			self.layout.addWidget(label)
