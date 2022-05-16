@@ -2,14 +2,16 @@
 	"showCalendar":
 		{
 			"key": "kalender",
-			"method": "showCalendar",
+			"module": "calendar",
+			"method": "buildModule",
 			"params": ""
 		},
 
 	"addCalendarEntry":
 		{
 			"key": "termin",
-			"method": "addCalendarEntry",
+			"module": "calendar",
+			"method": "storeData",
 			"params": {
 				"name": "Welchen Namen soll der Termin haben?",
 				"date": "Welches Datum soll der Termin haben?"
@@ -18,14 +20,16 @@
 	"showShoppingList":
 		{
 			"key" : "einkaufsliste",
-			"method" : "showShoppingList",
+			"module": "shoppingList",
+			"method" : "buildModule",
 			"params" : "" 
 		},
 
 	"addShoppingListEntry":
 		{
 			"key" : "einkaufen",
-			"method" : "addShoppingListEntry",
+			"module": "shoppingList",
+			"method" : "storeData",
 			"params" : {
 				"name" : "Welchen Artikel soll ich auf die Einkaufsliste schreiben?"
 			} 
@@ -34,18 +38,28 @@
 	"showToDoList":
 		{
 			"key": "aufgaben",
-			"method": "showToDoList",
+			"module": "toDoList",
+			"method": "buildModule",
 			"params": ""
 		},
 
 	"addToDoItems":
 		{
 			"key": "todoliste",
-			"method": "showToDoItems",
+			"method": "storeData",
+			"module": "toDoList",
 			"params": {
 				"name": "Wie heisst die Aufgabe?",
 				"person": "Welche Person hat die Aufgabe?"
 			}
+		},
+	"showDia":
+		{
+			"key": "diashow",
+			"module": "diashow",
+			"method": "buildModule",
+			"params": ""
+
 		},
 
 	"exit":

@@ -13,13 +13,14 @@ class Bot():
 			self.cdict = json.load(f)
 		# print(self.cdict)
 
+	#returns requested command with params
 	def run(self):
 		while True:
 			print("waiting...")
 			self.waitForUser()
 			cmd = self.getCommand()
-			method, params = self.buildCommand(cmd)
-			return self.executeCommand(method, params)
+			params = self.getParams(cmd)
+			return cmd, params
 
 	def waitForUser(self):
 		while True:
@@ -35,25 +36,22 @@ class Bot():
 				if self.cdict[entry]["key"] in userInput:
 					return self.cdict[entry]
 			
-		self.buildCommand(userInput)
+		#self.buildCommand(userInput)
 
-	def buildCommand(self, cmd):
+	def getParams(self, cmd):
 		parameter = {}
 		if cmd["params"] == "":
-			return cmd["method"], ""
+			return ""
 		else:
 			for param in cmd["params"]:
 				self.output.say(cmd["params"][param])
 				parameter[param] = self.input.listen()
-			return cmd["method"], parameter
+			return parameter
 
-	def executeCommand(self, method, params):
-		method_to_call = getattr(commands, method)
-		data = method_to_call(params)
-		#print(data)
-		#b64Json = base64.urlsafe_b64encode(json.dumps(data).encode()).decode()
-		#print (b64Json)
-		return data
+#	def returnMethodWithParams(self, method, params):
+#		return method_to_call = getattr(commands, method)
+#		data = method_to_call(params)
+#		return data
 		
 		
 
