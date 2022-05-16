@@ -24,6 +24,7 @@ class Main():
 
 		#Test
 		self.module = ""
+
 		self.app = QApplication(sys.argv)
 		
 		self.app.setStyleSheet(self.stylesheet)
@@ -36,6 +37,7 @@ class Main():
 		self.comm.calendar.connect(self.window.showCalendar)
 		self.comm.shoppingList.connect(self.window.showShoppingList)
 		self.comm.toDo.connect(self.window.showToDoList)
+		self.comm.back.connect(self.window.goBack)
 
 		#Bot Thread
 		thread = threading.Thread(target=self.runBot)
@@ -54,12 +56,19 @@ class Main():
 		while self.running:
 
 			cmd, params = self.bot.run()
-			print("DEBUG:  ")
-			print(cmd)
+			print(params)
 			self.module = getattr(sys.modules[__name__], cmd["module"])()
 			method_to_call = getattr(self.module, cmd["method"])
 			if params == "":
-				method_to_call(self.comm)
+				method_to_call()
+				if cmd["module"] == "Calendar":
+					self.comm.calendar.emit()
+				elif cmd["module"] == "ToDoList":
+					self.comm.toDo.emit()
+				elif cmd["module"] == "ShoppingList":
+					self.comm.shoppingList.emit()
+				elif cmd["module"] == "DiaShow":
+					self.comm.back.emit()
 			else:
 				method_to_call(params)
 
@@ -79,10 +88,11 @@ class Main():
 
 
 
-#class Communicate(QObject):
-#	calendar = Signal()
-#	sL = Signal()
-#	toDo = Signal()
+class Communicate(QObject):
+	calendar = Signal()
+	shoppingList = Signal()
+	toDo = Signal()
+	back = Signal()
 
 class MainWindow(QMainWindow):
 	def __init__(self):
@@ -96,20 +106,17 @@ class MainWindow(QMainWindow):
 		shoppingList.buildModule()
 		self.setCentralWidget(shoppingList)
 
-	def showCalendar(self, object):
-		print("received signal")
-		#cal = Calendar()
-		#cal.buildModule()
-		#self.setCentralWidget(object)
+	def showCalendar(self):
+		cal = Calendar()
+		cal.buildModule()
+		self.setCentralWidget(cal)
 
 	def showToDoList(self):
 		toDoList = ToDoList()
 		toDoList.buildModule()
 		self.setCentralWidget(toDoList)
-	
-	def showDia(self):
-		dia = DiaShow()
-		dia.buildModule()
-		self.setCentralWidget(dia)
+
+	def goBack(self):
+		self.setCentralWidget(None)
 
 main = Main()

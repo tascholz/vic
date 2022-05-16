@@ -40,14 +40,13 @@ class Calendar(Module):
 	def __init__(self):
 		super().__init__()
 
-	def buildModule(self, signal):
+	def buildModule(self):
 		print("Kalender wird angezeigt")
 		for entry in self.dict["dates"]:
 			label = QLabel(entry + ": " + self.dict["dates"][entry])
 			self.layout.addWidget(label)
 			print(entry)
 		self.setLayout(self.layout)
-		signal.calendar.emit(self)
 
 	def storeData(self, params):
 		data = {}
@@ -71,13 +70,13 @@ class ShoppingList(Module):
 			label = QLabel(entry)
 			self.layout.addWidget(label)
 		self.setLayout(self.layout)
-		self.comm.shoppingList.emit()
+
 	def storeData(self, params):
 		data = {}
 		data["method"] = "addShoppingListEntry"
 		data["name"] = params["name"]
 
-		dict["shoppingItems"].append(data["name"])
+		self.dict["shoppingItems"].append(data["name"])
 		self.dumpJson()
 
 
@@ -91,7 +90,6 @@ class ToDoList(Module):
 			label = QLabel(entry + ": " + self.dict["tasks"][entry])
 			self.layout.addWidget(label)
 		self.setLayout(self.layout)
-		self.comm.toDo.emit()
 
 	def storeData(self, data):
 		data = {}

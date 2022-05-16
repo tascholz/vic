@@ -55,8 +55,8 @@
 		},
 	"showDia":
 		{
-			"key": "diashow",
-			"module": "Diashow",
+			"key": "leer",
+			"module": "DiaShow",
 			"method": "buildModule",
 			"params": ""
 
