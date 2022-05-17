@@ -1,5 +1,6 @@
 from PySide6.QtCore import QSize, Qt, Signal, QObject
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QWidget, QVBoxLayout, QGridLayout
+#Todo module entfernen
+from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QGridLayout
 from PySide6.QtGui import QPixmap
 import sys
 from os import listdir
@@ -21,18 +22,15 @@ class Main():
 				background-position: center;
 			}
 		"""
-
-		#Test
 		self.module = ""
 
+		#setting up the application and main window
 		self.app = QApplication(sys.argv)
-		
 		self.app.setStyleSheet(self.stylesheet)
-
 		self.window = MainWindow()
-		
 		self.window.show()
 
+		#setting up the signals for communication between the widgets
 		self.comm = Communicate()
 		self.comm.calendar.connect(self.window.showCalendar)
 		self.comm.shoppingList.connect(self.window.showShoppingList)
@@ -49,16 +47,18 @@ class Main():
 		thread.setDaemon(True)
 		thread.start()
 
-
 		self.app.exec_()
 
 	def runBot(self):
 		while self.running:
-
+			#listening for user command and retrieving parameters
 			cmd, params = self.bot.run()
 			print(params)
+
 			self.module = getattr(sys.modules[__name__], cmd["module"])()
 			method_to_call = getattr(self.module, cmd["method"])
+			
+			#when command is show
 			if params == "":
 				method_to_call()
 				if cmd["module"] == "Calendar":
@@ -69,6 +69,8 @@ class Main():
 					self.comm.shoppingList.emit()
 				elif cmd["module"] == "DiaShow":
 					self.comm.back.emit()
+
+			#when command is create
 			else:
 				method_to_call(params)
 
@@ -78,21 +80,11 @@ class Main():
 		while True:
 			if index >= len(allfiles):
 				index = 0
-
-			print(allfiles[index])
 			
 			self.stylesheet = "MainWindow { background-image: url(images/" + allfiles[index] + "); background-repeat: no-repeat; background-position: center;}"
 			self.app.setStyleSheet(self.stylesheet)
 			index += 1
 			sleep(10)
-
-
-
-class Communicate(QObject):
-	calendar = Signal()
-	shoppingList = Signal()
-	toDo = Signal()
-	back = Signal()
 
 class MainWindow(QMainWindow):
 	def __init__(self):
@@ -118,5 +110,11 @@ class MainWindow(QMainWindow):
 
 	def goBack(self):
 		self.setCentralWidget(None)
+
+class Communicate(QObject):
+	calendar = Signal()
+	shoppingList = Signal()
+	toDo = Signal()
+	back = Signal()
 
 main = Main()

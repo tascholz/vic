@@ -2,13 +2,13 @@ from inputOutput import Input, OAudio
 import json
 import commands
 import base64
-
+ 
 
 class Bot():
 	def __init__(self):
 		self.input = Input()
 		self.output = OAudio()
-		self.readyForCommand = False
+		#self.readyForCommand = False
 		with open('./CDict.json', 'r') as f:
 			self.cdict = json.load(f)
 		# print(self.cdict)
@@ -48,12 +48,6 @@ class Bot():
 				parameter[param] = self.input.listen()
 			return parameter
 
-#	def returnMethodWithParams(self, method, params):
-#		return method_to_call = getattr(commands, method)
-#		data = method_to_call(params)
-#		return data
-		
-		
 
 
 def startBot():

@@ -19,8 +19,6 @@ class Module(QWidget):
 			self.dict = json.load(f)
 		self.layout = QVBoxLayout()
 		
-
-		#Test
 		op = QGraphicsOpacityEffect(self)
 		op.setOpacity(0.70)
 		self.setGraphicsEffect(op)
@@ -45,7 +43,6 @@ class Calendar(Module):
 		for entry in self.dict["dates"]:
 			label = QLabel(entry + ": " + self.dict["dates"][entry])
 			self.layout.addWidget(label)
-			print(entry)
 		self.setLayout(self.layout)
 
 	def storeData(self, params):
@@ -56,7 +53,6 @@ class Calendar(Module):
 
 		self.dict["dates"][data["date"]] = data["name"]
 		self.dumpJson()
-
 		return data
 		
 class ShoppingList(Module):
